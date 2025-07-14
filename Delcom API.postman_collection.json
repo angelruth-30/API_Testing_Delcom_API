@@ -1,0 +1,1462 @@
+{
+	"info": {
+		"_postman_id": "02463306-d312-4824-b434-ae017763eb27",
+		"name": "Delcom API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33887963",
+		"_collection_link": "https://www.postman.com/apitest-6256/workspace/api-test/collection/33887963-02463306-d312-4824-b434-ae017763eb27?action=share&source=collection_link&creator=33887963"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has message\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Berhasil melakukan pendaftaran\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"angel123\",\r\n    \"email\" : \"angel1234@gmail.com\",\r\n    \"password\" : \"angel-password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/auth/register",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has message\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Berhasil login\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Name and Email are correct\", function(){\r",
+							"    const jsonData = pm.response.json();\r",
+							"\r",
+							"    const expectedName = \"angel123\";\r",
+							"    const expectedEmail = \"angel1234@gmail.com\";\r",
+							"\r",
+							"    pm.expect(jsonData.data.user.name).to.eql(expectedName);\r",
+							"    pm.expect(jsonData.data.user.email).to.eql(expectedEmail);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"angel1234@gmail.com\",\r\n    \"password\" : \"angel-password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/auth/login",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Every user has id, name, email\", function () {\r",
+							"    const users = pm.response.json().data.users;\r",
+							"    users.forEach(user => {\r",
+							"        pm.expect(user).to.have.property(\"id\");\r",
+							"        pm.expect(user).to.have.property(\"name\");\r",
+							"        pm.expect(user).to.have.property(\"email\");\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/users",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successfully get data user\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Berhasil mengambil data\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/users/1",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successfully get profile\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Berhasil mengambil data);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/users/me",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code 200(even with invalid email)\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							" "
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "ruthangel",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "coba123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/users/me",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change Photo Profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successfully change profile photo\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Berhasil mengubah photo profile\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "photo",
+							"type": "file",
+							"src": "/C:/Users/MSI GF63/Downloads/WhatsApp Image 2025-06-05 at 13.44.31.jpeg"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/users/photo",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"photo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successfully change password\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(jsonData.message).to.eql(\"Berhasil mengubah kata sandi\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "password",
+							"value": "angel-password",
+							"type": "text"
+						},
+						{
+							"key": "new_password",
+							"value": "angel-password1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/users/password",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add New Todo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successfully add new todo\", function() {\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData.message).to.eql(\"Berhasil menambahkan data\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "New Todo",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "This is new todo",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/todos",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change Cover Todo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successfully change todo cover\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData.message).to.eql(\"Berhasil mengubah cover\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "cover",
+							"type": "file",
+							"src": "/C:/Users/MSI GF63/Downloads/recare6.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/todos/596/cover",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"todos",
+						"596",
+						"cover"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Todo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successfully update todo\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData.message).to.eql(\"Berhasil mengubah data\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "Update Todo",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "This update Todo",
+							"type": "text"
+						},
+						{
+							"key": "is_finished",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/todos/596",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"todos",
+						"596"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Todos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successfully get data\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData.message).to.eql(\"Berhasil mengambil data\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/todos?is_finished=1",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"todos"
+					],
+					"query": [
+						{
+							"key": "is_finished",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Detail Todo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successfully get data by id\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData.message).to.eql(\"Berhasil mengambil data\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "Update Todo",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "description",
+							"value": "This update Todo",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "is_finished",
+							"value": "1",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/todos/596",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"todos",
+						"596"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Todo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successfully delete data by id\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData.message).to.eql(\"Berhasil menghapus data\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/todos/596",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"todos",
+						"596"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add New Auction - Positive",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains sucess message and auction_id\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData).to.have.property(\"success\", true);\r",
+							"    pm.expect(jsonData).to.have.property(\"message\", \"Berhasil menambahkan data\");\r",
+							"    pm.expect(jsonData.data).to.have.property(\"auction_id\").that.is.a(\"number\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "cover",
+							"type": "file",
+							"src": "/C:/Users/MSI GF63/Downloads/Logo Institut Teknologi Del.png"
+						},
+						{
+							"key": "title",
+							"value": "New Auction",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Sepeda lipat ",
+							"type": "text"
+						},
+						{
+							"key": "start_bid",
+							"value": "500000",
+							"type": "text"
+						},
+						{
+							"key": "closed_at",
+							"value": "2025-10-5 09.33",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/aucations",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"aucations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add New Auction - Negative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function(){\r",
+							"    pm.response.to.have.status(400);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Unsucessfully add cover - too large\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData).to.have.property(\"success\", false);\r",
+							"    pm.expect(jsonData).to.have.property(\"message\", \"Data tidak valid\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "cover",
+							"type": "file",
+							"src": "postman-cloud:///1ef02d2a-8dc1-4cc0-a226-219960f16e3b"
+						},
+						{
+							"key": "title",
+							"value": "Lelang laptop",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Laptop MSI GF63 Thin",
+							"type": "text"
+						},
+						{
+							"key": "start_bid",
+							"value": "10000000",
+							"type": "text"
+						},
+						{
+							"key": "closed_at",
+							"value": "2025-09-30 22:00:00",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/aucations",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"aucations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change Cover Auction -Postive",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Successfully change cover\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData.message).to.eql(\"Berhasil mengubah cover\");\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "cover",
+							"type": "file",
+							"src": "/C:/Users/MSI GF63/Downloads/6.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/aucations/278/cover",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"aucations",
+						"278",
+						"cover"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change Cover Auction - Negative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code 400\", function(){\r",
+							"    pm.response.to.have.status(400);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Failed to change cover-file too large\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData.message).to.eql(\"Data tidak valid\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "cover",
+							"type": "file",
+							"src": "postman-cloud:///1ef02d2a-8dc1-4cc0-a226-219960f16e3b"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/aucations/278/cover",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"aucations",
+						"278",
+						"cover"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Auction - Negative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code 400\", function (){\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Unsuccesfully update Auction - Invalid data\", function (){\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData).to.have.property(\"success\", false);\r",
+							"    pm.expect(jsonData).to.have.property(\"message\", \"Data tidak valid\");\r",
+							"    pm.expect(jsonData.data).to.have.property(\"start_bid\");\r",
+							"    pm.expect(jsonData.data.start_bid[0]).to.eql(\"The start bid field must be a number.\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "Update Auction",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Barang bagus dan mulus tanpa cacat, harga terjangkai",
+							"type": "text"
+						},
+						{
+							"key": "start_bid",
+							"value": "test string",
+							"type": "text"
+						},
+						{
+							"key": "closed_at",
+							"value": "tanggal 1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/aucations/278",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"aucations",
+						"278"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Auction - Positive",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Succesfully update auction\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData.success).to.eql(true);\r",
+							"    pm.expect(jsonData.message).to.eql(\"Berhasil mengubah data\");\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "Update Auction",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Barang bagus dan mulus tanpa cacat, harga terjangkai",
+							"type": "text"
+						},
+						{
+							"key": "start_bid",
+							"value": "23000",
+							"type": "text"
+						},
+						{
+							"key": "closed_at",
+							"value": "2024-10-05 13:00",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/aucations/278",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"aucations",
+						"278"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Auction",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Succesfully get all auction data\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData).to.have.property(\"success\", true);\r",
+							"    pm.expect(jsonData).to.have.property(\"message\", \"Berhasil mengambil data\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/aucations?is_closed=0",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"aucations"
+					],
+					"query": [
+						{
+							"key": "is_me",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "is_closed",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Succesfully delete auction\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData.success).to.eql(true);\r",
+							"    pm.expect(jsonData.message).to.eql(\"Berhasil menghapus data\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3996|o5dT3DYJg59DpmFQLIHjnORkIHNBkOyt1Mf5ncRa6c278be4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "https://public-api.delcom.org/api/v1/aucations/279",
+					"protocol": "https",
+					"host": [
+						"public-api",
+						"delcom",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"aucations",
+						"279"
+					],
+					"query": [
+						{
+							"key": "is_me",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
